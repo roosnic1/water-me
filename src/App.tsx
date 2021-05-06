@@ -1,24 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {SuspenseWithPerf, useFirestore, useFirestoreDocData} from "reactfire";
+import CreatePlant from "./CreatePlant";
+
+function HelloMessage() {
+  const helloRef = useFirestore().collection('hello').doc('test')
+
+  const {data} = useFirestoreDocData(helloRef)
+
+  // @ts-ignore
+  return <p>{data.text}</p>
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="sm:container sm:mx-auto">
+      <SuspenseWithPerf fallback={'loading burrito status...'} traceId={'load-test-status'}>
+        <HelloMessage />
+      </SuspenseWithPerf>
+      <CreatePlant />
     </div>
   );
 }

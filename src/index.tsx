@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-//import App from './App';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import 'firebase/firestore'
-import { FirebaseAppProvider, useFirestoreDocData, useFirestore, SuspenseWithPerf } from 'reactfire';
+import { FirebaseAppProvider } from 'reactfire';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -17,21 +17,10 @@ const firebaseConfig = {
     appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
-function HelloMessage() {
-    const helloRef = useFirestore().collection('hello').doc('test')
-
-    const {data} = useFirestoreDocData(helloRef)
-
-    // @ts-ignore
-    return <p>{data.text}</p>
-}
-
 ReactDOM.render(
   <React.StrictMode>
       <FirebaseAppProvider firebaseConfig={firebaseConfig} suspense={true}>
-          <SuspenseWithPerf fallback={'loading burrito status...'} traceId={'load-test-status'}>
-            <HelloMessage />
-          </SuspenseWithPerf>
+          <App />
       </FirebaseAppProvider>
   </React.StrictMode>,
   document.getElementById('root')
