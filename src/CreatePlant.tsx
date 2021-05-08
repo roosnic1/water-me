@@ -92,7 +92,7 @@ export default function CreatePlant() {
 
     return (
         <>
-            <h1>Create new Plant</h1>
+            <h1>Identify Plant</h1>
             <Webcam
                 audio={false}
                 ref={webcamRef}
