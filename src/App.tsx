@@ -2,12 +2,14 @@ import React from 'react';
 import './App.css';
 import {SuspenseWithPerf, useFirestore, useFirestoreDocData} from "reactfire";
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
+  BrowserRouter as Router,
+  Switch,
+  Route
 } from "react-router-dom";
-import CreatePlant from "./CreatePlant";
+import {Container, theming} from '@mantine/core';
+import IdentifyPlant from "./IdentifyPlant";
+import {createUseStyles} from "react-jss";
+
 
 function HelloMessage() {
   const helloRef = useFirestore().collection('hello').doc('test')
@@ -18,26 +20,42 @@ function HelloMessage() {
   return <p>{data.text}</p>
 }
 
-function App() {
-  return (
-      <Router>
-          <div className="sm:container sm:mx-auto">
-              <Switch>
-                  <Route path="/create">
-                      <h1>Create Plant</h1>
-                  </Route>
-                  <Route path="/identify">
-                      <CreatePlant />
-                  </Route>
-                  <Route path="/">
-                      <SuspenseWithPerf fallback={'loading burrito status...'} traceId={'load-test-status'}>
-                          <HelloMessage />
-                      </SuspenseWithPerf>
-                  </Route>
-              </Switch>
-          </div>
-      </Router>
+const useStyles = createUseStyles(
+  (theme) => ({
+    '@global': {
+      body: {
+        // @ts-ignore
+        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+        // @ts-ignore
+        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+      },
+    },
+  }),
+  {theming}
+);
 
+function App() {
+  useStyles();
+  return (
+    <Router>
+      <Container
+        size="xs"
+        padding="xs">
+        <Switch>
+          <Route path="/create">
+            <h1>Create Plant</h1>
+          </Route>
+          <Route path="/identify">
+            <IdentifyPlant/>
+          </Route>
+          <Route path="/">
+            <SuspenseWithPerf fallback={'loading burrito status...'} traceId={'load-test-status'}>
+              <HelloMessage/>
+            </SuspenseWithPerf>
+          </Route>
+        </Switch>
+      </Container>
+    </Router>
   );
 }
 

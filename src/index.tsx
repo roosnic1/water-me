@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 import 'firebase/firestore'
 import { FirebaseAppProvider } from 'reactfire';
+import { MantineProvider } from '@mantine/core';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -20,7 +21,9 @@ const firebaseConfig = {
 ReactDOM.render(
   <React.StrictMode>
       <FirebaseAppProvider firebaseConfig={firebaseConfig} suspense={true}>
-          <App />
+          <MantineProvider theme={{ /* fontFamily: 'Open Sans', */ colorScheme: 'dark' }}>
+            <App />
+          </MantineProvider>
       </FirebaseAppProvider>
   </React.StrictMode>,
   document.getElementById('root')
